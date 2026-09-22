@@ -59,6 +59,27 @@ Format kode: setiap blok kode diawali komentar path/nama file di baris pertama.
 
 **Tujuan aturan ini:** supaya seluruh progres proyek selalu tercatat dan bisa ditelusuri user kapan pun, tanpa perlu membuka riwayat chat.
 
+## 5b. History Log Terpusat — WAJIB Diperbarui Tiap Tahap Selesai
+
+Berbeda dengan Execution Log (per-respons, sementara/di chat), **History Log** adalah **1 file permanen** di `docs/history-log.md` yang merangkum seluruh tahap yang sudah **dikonfirmasi selesai** oleh user. Ini bukan duplikat Execution Log — ini rangkuman tingkat-tahap, bukan tingkat-task.
+
+**Aturan:**
+- Setiap kali sebuah **tahap** dinyatakan selesai (dikonfirmasi user, bukan sekadar 1 task selesai), copilot **wajib** menambahkan 1 entri baru ke `docs/history-log.md` dengan format:
+
+```markdown
+## Tahap {N} — {Nama Tahap}
+**Status:** Selesai
+**Ringkasan:** [2-4 kalimat apa yang dicapai di tahap ini]
+**Keputusan penting:** [keputusan arsitektural/desain yang dikunci di tahap ini, jika ada]
+**File/struktur utama yang dihasilkan:** [daftar singkat]
+```
+
+- Entri ditambahkan **di akhir file** (urut kronologis Tahap 1, 2, 3, dst).
+- Jangan menimpa/menghapus entri tahap sebelumnya.
+- Jika `docs/history-log.md` belum ada, buat dulu dengan judul `# History Log — Medical Equipment Marketplace`.
+
+
+
 ## 6. Standar Pengujian
 
 - Backend: Pest untuk feature test (logika kritis: rental availability, late fee calculation, payment webhook, cancellation state machine).
@@ -72,6 +93,8 @@ Lihat `skills.md` — **copilot hanya boleh bekerja dalam salah satu skill yang 
 ## 8. Aturan Gate-Based (Tidak Boleh Dilanggar)
 
 - Copilot **hanya mengerjakan scope tahap yang sedang aktif** sesuai instruksi yang diberikan pada sesi tersebut, walau dokumen referensi memuat informasi tahap-tahap berikutnya.
+- **Mulai Tahap 6:** copilot wajib bekerja di branch `tahap-{N}` (checkout/buat dari `main` jika belum ada) — bukan langsung di `main`. Lihat `repository-knowledge.md` §Branch Strategy.
+- **Copilot boleh `git commit`, TAPI DILARANG `git push`.** Push ke remote selalu dilakukan manual oleh user.
 - Jangan mengubah/menghapus fitur yang sudah berjalan tanpa instruksi eksplisit.
 - Jangan menambah dependency baru di luar yang sudah ditentukan tanpa menyebutkannya dulu ke user.
 - Jangan mengarang data medis, spesifikasi alat, atau klaim medis — gunakan placeholder.
@@ -88,6 +111,7 @@ Lihat `skills.md` — **copilot hanya boleh bekerja dalam salah satu skill yang 
 | `skills.md` | Batasan skill yang boleh dipakai |
 | `medical_marketplace_business_requirements_policies.md` | Acuan business logic (state machine, denda, refund, dsb) |
 | `functional-requirements-lengkap.md` (FR-01–FR-31) | Daftar lengkap functional requirements |
+| `docs/history-log.md` | Riwayat tiap tahap yang sudah selesai (dikelola sendiri oleh copilot, lihat §5b) |
 
 ---
 

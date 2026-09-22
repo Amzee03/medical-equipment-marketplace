@@ -113,8 +113,12 @@ backend/storage/logs/*
 
 ## Branch Strategy
 
-- `main` → selalu stabil, hanya menerima merge setelah tahap diuji & dikonfirmasi user.
-- `feature/tahap-{N}-{nama-singkat}` → branch kerja per tahap, mis. `feature/tahap-7-backend-auth`.
+- `main` → selalu stabil, hanya menerima merge setelah tahap diuji, dikonfirmasi user, **dan** sudah di-push manual oleh user.
+- **Satu branch per tahap**: `tahap-{N}` (mis. `tahap-6`, `tahap-7`) — dibuat dari `main` di awal tahap tersebut. Seluruh kerja copilot untuk tahap itu (migration, kode, dsb) dilakukan & di-commit di branch ini, **bukan** langsung di `main`.
+- **Copilot HANYA commit, TIDAK push ke remote.** Push ke GitHub dilakukan manual oleh user sendiri, sebagai kontrol tambahan sebelum perubahan benar-benar masuk repo online.
+- Setelah tahap dikonfirmasi selesai & branch-nya di-push oleh user, branch `tahap-{N}` di-merge ke `main` (oleh user) sebelum tahap berikutnya mulai dari `main` yang sudah ter-update.
+- **Tujuan:** rollback mudah ke versi tahap sebelumnya yang stabil kalau ada kesalahan besar di tahap berikutnya.
+- Berlaku mulai **Tahap 6** dan seterusnya (Tahap 3–5 sudah terlanjur langsung di `main`, tidak perlu direkonstruksi jadi branch terpisah).
 - Commit message: prefix sederhana `feat:`, `fix:`, `chore:`, `docs:` (mis. `feat: tambah endpoint rental availability check`).
 
 ---
