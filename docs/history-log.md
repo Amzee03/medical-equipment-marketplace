@@ -29,3 +29,9 @@
 **Ringkasan:** Project Laravel 12 (API-only) di-generate di /backend dengan Sanctum token-based auth, CORS, koneksi PostgreSQL (migration bawaan sukses), storage privat untuk KTP, dan routing modular. Project Next.js di-generate di /frontend (App Router, TypeScript strict, Tailwind) dengan TanStack Query, Zustand, React Hook Form+Zod, axios terpasang, plus skeleton folder & API client dasar.
 **Keputusan penting:** Sanctum menggunakan token-based (Bearer) auth, bukan cookie-based SPA, supaya CORS antar origin (frontend:3000, backend:8000) tetap sederhana tanpa perlu stateful domain/CSRF.
 **File/struktur utama yang dihasilkan:** backend/ (Laravel API-only lengkap), frontend/ (Next.js lengkap), backend/routes/api/*.php, frontend/src/lib/api-client.ts, frontend/src/app/providers.tsx
+
+## Tahap 6 — Database Design
+**Status:** Selesai
+**Ringkasan:** Seluruh tabel bisnis inti telah diterjemahkan menjadi file migration dan Eloquent Model (dengan properties $fillable, $casts, dan pendefinisian relasi) sesuai skema PostgreSQL. Tambahan kolom bisnis untuk tabel users digabungkan melalui satu file migration terpisah. Seeder awal untuk Category dan Admin juga berhasil dibuat serta database telah di-seed dengan sukses.
+**Keputusan penting:** Constraint `cascadeOnDelete` diterapkan secara ketat hanya pada entitas anak langsung (misal: `product_images`, `cart_items`), dan `restrictOnDelete` pada tabel transaksional (`orders`, `rental_items`, dll) mencegah insiden penghapusan data. Tipe data menggunakan fitur native Postgres seperti `jsonb` untuk data statis spesifikasi.
+**File/struktur utama yang dihasilkan:** 15 file di `backend/database/migrations/`, 14 file di `backend/app/Models/`, `CategorySeeder.php`, `AdminUserSeeder.php`
