@@ -75,8 +75,10 @@ class StockController extends Controller
         $product = Product::findOrFail($id);
 
         $unit = DB::transaction(function () use ($product) {
-            // Hitung urutan unit berikutnya berdasarkan total unit yang ada (termasuk retired)
-            $nextNumber = $product->equipmentUnits()->withTrashed()->count() + 1;
+            // Hitung total unit yang pernah dibuat untuk produk ini (termasuk retired).
+            // Query biasa sudah mencakup semua status — EquipmentUnit TIDAK pakai SoftDeletes,
+            // "penghapusan" dilakukan dengan status='retired' (bukan kolom deleted_at).
+            $nextNumber = $product->equipmentUnits()->count() + 1;
             $unitCode   = $product->sku . '-U' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
             return EquipmentUnit::create([
