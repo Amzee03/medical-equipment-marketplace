@@ -124,6 +124,38 @@ class ProductController extends Controller
     }
 
     // =========================================================================
+    // PUBLIC — GET /api/products/{id}/availability
+    // =========================================================================
+
+    /**
+     * Cek ketersediaan produk untuk periode sewa tertentu.
+     */
+    public function checkAvailability(Request $request, int $id, \App\Services\RentalAvailabilityService $rentalService): JsonResponse
+    {
+        $request->validate([
+            'start_date' => 'required|date_format:Y-m-d|after_or_equal:today',
+            'end_date'   => 'required|date_format:Y-m-d|after_or_equal:start_date',
+        ]);
+
+        $product = Product::where('status', 'active')->findOrFail($id);
+
+        if (!$product->rental_available) {
+            return response()->json(['message' => 'Produk tidak tersedia untuk disewa.'], 422);
+        }
+
+        $availability = $rentalService->checkAvailability(
+            $product->id,
+            $request->start_date,
+            $request->end_date,
+            false // no lock for public checking
+        );
+
+        return response()->json([
+            'data' => $availability,
+        ]);
+    }
+
+    // =========================================================================
     // ADMIN — GET /api/admin/products
     // =========================================================================
 
