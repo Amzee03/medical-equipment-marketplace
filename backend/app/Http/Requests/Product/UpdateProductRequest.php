@@ -35,11 +35,11 @@ class UpdateProductRequest extends FormRequest
             'sale_price'               => ['nullable', 'numeric', 'min:0'],
             'stock_purchase'           => ['nullable', 'integer', 'min:0'],
             'rental_available'         => ['sometimes', 'required', 'boolean'],
-            'rental_price_daily'       => ['nullable', 'numeric', 'min:0'],
+            'rental_price_daily'       => ['nullable', 'numeric', 'min:0', 'required_if:rental_available,true'],
             'rental_price_weekly'      => ['nullable', 'numeric', 'min:0'],
             'rental_price_monthly'     => ['nullable', 'numeric', 'min:0'],
-            'min_rental_days'          => ['nullable', 'integer', 'min:1'],
-            'max_rental_days'          => ['nullable', 'integer', 'min:1', 'gte:min_rental_days'],
+            'min_rental_days'          => ['nullable', 'integer', 'min:1', 'required_if:rental_available,true'],
+            'max_rental_days'          => ['nullable', 'integer', 'min:1', 'gte:min_rental_days', 'required_if:rental_available,true'],
             'shipping_owner_delivery'  => ['sometimes', 'required', 'boolean'],
             'shipping_express'         => ['sometimes', 'required', 'boolean'],
             'shipping_regular'         => ['sometimes', 'required', 'boolean'],
@@ -51,7 +51,10 @@ class UpdateProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'max_rental_days.gte' => 'Maksimum hari sewa harus lebih besar atau sama dengan minimum hari sewa.',
+            'rental_price_daily.required_if' => 'Harga sewa harian wajib diisi jika produk tersedia untuk disewa.',
+            'min_rental_days.required_if'    => 'Minimum hari sewa wajib diisi jika produk tersedia untuk disewa.',
+            'max_rental_days.required_if'    => 'Maksimum hari sewa wajib diisi jika produk tersedia untuk disewa.',
+            'max_rental_days.gte'            => 'Maksimum hari sewa harus lebih besar atau sama dengan minimum hari sewa.',
         ];
     }
 

@@ -34,11 +34,11 @@ class StoreProductRequest extends FormRequest
             'sale_price'               => ['nullable', 'numeric', 'min:0', 'required_if:purchase_available,true'],
             'stock_purchase'           => ['nullable', 'integer', 'min:0'],
             'rental_available'         => ['required', 'boolean'],
-            'rental_price_daily'       => ['nullable', 'numeric', 'min:0'],
+            'rental_price_daily'       => ['nullable', 'numeric', 'min:0', 'required_if:rental_available,true'],
             'rental_price_weekly'      => ['nullable', 'numeric', 'min:0'],
             'rental_price_monthly'     => ['nullable', 'numeric', 'min:0'],
-            'min_rental_days'          => ['nullable', 'integer', 'min:1'],
-            'max_rental_days'          => ['nullable', 'integer', 'min:1', 'gte:min_rental_days'],
+            'min_rental_days'          => ['nullable', 'integer', 'min:1', 'required_if:rental_available,true'],
+            'max_rental_days'          => ['nullable', 'integer', 'min:1', 'gte:min_rental_days', 'required_if:rental_available,true'],
             'shipping_owner_delivery'  => ['required', 'boolean'],
             'shipping_express'         => ['required', 'boolean'],
             'shipping_regular'         => ['required', 'boolean'],
@@ -50,8 +50,11 @@ class StoreProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'sale_price.required_if' => 'Harga jual wajib diisi jika produk tersedia untuk pembelian.',
-            'max_rental_days.gte'    => 'Maksimum hari sewa harus lebih besar atau sama dengan minimum hari sewa.',
+            'sale_price.required_if'         => 'Harga jual wajib diisi jika produk tersedia untuk pembelian.',
+            'rental_price_daily.required_if' => 'Harga sewa harian wajib diisi jika produk tersedia untuk disewa.',
+            'min_rental_days.required_if'    => 'Minimum hari sewa wajib diisi jika produk tersedia untuk disewa.',
+            'max_rental_days.required_if'    => 'Maksimum hari sewa wajib diisi jika produk tersedia untuk disewa.',
+            'max_rental_days.gte'            => 'Maksimum hari sewa harus lebih besar atau sama dengan minimum hari sewa.',
         ];
     }
 
