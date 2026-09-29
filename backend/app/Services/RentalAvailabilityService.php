@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\DB;
 class RentalAvailabilityService
 {
     /**
+     * Membuat query untuk mengambil unit sewa yang tersedia.
+     */
+    public function getAvailableUnitsQuery(int $productId, string $startDate, string $endDate, bool $lock = false): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = EquipmentUnit::where('product_id', $productId)
+            ->where('status', '!=', 'retired')
+            ->whereDoesntHave('rentalItems', function ($q) use ($startDate, $endDate) {
+                $q->whereIn('rental_status', ['confirmed', 'active', 'awaiting_return', 'overdue'])
+                  ->whereDate('start_date', '<=', $endDate)
+                  ->whereDate('end_date', '>=', $startDate);
+            });
+        
+        if ($lock) {
+            $query->lockForUpdate();
+        }
+        
+        return $query;
+    }
+
+    /**
      * Mengecek ketersediaan unit sewa untuk produk dan periode tertentu.
      *
      * @param int $productId
@@ -20,17 +40,7 @@ class RentalAvailabilityService
      */
     public function checkAvailability(int $productId, string $startDate, string $endDate, bool $lock = false): array
     {
-        $query = EquipmentUnit::where('product_id', $productId)
-            ->where('status', '!=', 'retired')
-            ->whereDoesntHave('rentalItems', function ($q) use ($startDate, $endDate) {
-                $q->whereIn('rental_status', ['confirmed', 'active', 'awaiting_return', 'overdue'])
-                  ->where('start_date', '<=', $endDate)
-                  ->where('end_date', '>=', $startDate);
-            });
-
-        if ($lock) {
-            $query->lockForUpdate();
-        }
+        $query = $this->getAvailableUnitsQuery($productId, $startDate, $endDate, $lock);
 
         $availableUnitsCount = $query->count();
 
