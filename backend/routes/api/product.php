@@ -19,3 +19,6 @@ Route::get('/products', [ProductController::class, 'index']);
 /** GET /api/products/{slug} — Detail produk by slug */
 Route::get('/products/{slug}', [ProductController::class, 'show']);
 
+/** GET /api/products/{id}/availability — Cek ketersediaan rental */
+Route::get('/products/{id}/availability', [ProductController::class, 'checkAvailability']);
+
