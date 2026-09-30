@@ -50,5 +50,18 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::post('/products/{id}/equipment-units', [StockController::class, 'addUnit']);
     Route::patch('/equipment-units/{id}', [StockController::class, 'updateUnit']);
     Route::delete('/equipment-units/{id}', [StockController::class, 'retireUnit']);
+    // -------------------------------------------------------------------
+    // Order management
+    // -------------------------------------------------------------------
+    Route::get('/orders', [\App\Http\Controllers\Api\Admin\OrderController::class, 'index']);
+    Route::patch('/orders/{id}/status', [\App\Http\Controllers\Api\Admin\OrderController::class, 'updateStatus']);
+    Route::post('/orders/{id}/review-cancellation', [\App\Http\Controllers\Api\Admin\OrderController::class, 'reviewCancellation']);
+
+    // -------------------------------------------------------------------
+    // Refund management
+    // -------------------------------------------------------------------
+    Route::get('/refunds', [\App\Http\Controllers\Api\Admin\RefundController::class, 'index']);
+    Route::post('/orders/{id}/refunds', [\App\Http\Controllers\Api\Admin\RefundController::class, 'store']);
+    Route::patch('/refunds/{id}/status', [\App\Http\Controllers\Api\Admin\RefundController::class, 'updateStatus']);
 });
 

@@ -19,7 +19,10 @@ class RentalAvailabilityService
             ->whereDoesntHave('rentalItems', function ($q) use ($startDate, $endDate) {
                 $q->whereIn('rental_status', ['confirmed', 'active', 'awaiting_return', 'overdue'])
                   ->whereDate('start_date', '<=', $endDate)
-                  ->whereDate('end_date', '>=', $startDate);
+                  ->whereDate('end_date', '>=', $startDate)
+                  ->whereHas('orderItem.order', function ($q2) {
+                      $q2->where('status', '!=', 'cancelled');
+                  });
             });
         
         if ($lock) {
