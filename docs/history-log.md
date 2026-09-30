@@ -66,3 +66,23 @@
 **Ringkasan:** Mengerjakan fungsionalitas manajemen pesanan di sisi User dan Admin. User dapat melihat riwayat dan detail pesanan, serta mengajukan pembatalan pesanan yang langsung diakomodasi untuk status tertentu atau menunggu persetujuan admin. Unit penyewaan dari pesanan yang dibatalkan otomatis dilepas dan tersedia lagi untuk disewa tanpa menghapus log historisnya. Sisi Admin dilengkapi dengan fitur untuk melihat daftar pesanan, memperbarui status pesanan, meninjau permintaan pembatalan, serta menangani pengembalian dana (refund).
 **Keputusan penting:** Logika pelepasan ketersediaan unit tidak bergantung pada status unik di `rental_items`, tetapi diputuskan melalui _query relationship_. `RentalAvailabilityService` diperbarui untuk otomatis mengecualikan item yang _parent_ order-nya berstatus 'cancelled' dari perhitungan alokasi penggunaan alat.
 **File/struktur utama yang dihasilkan:** `app/Http/Controllers/Api/OrderController.php`, `app/Http/Controllers/Api/Admin/OrderController.php`, `app/Http/Controllers/Api/Admin/RefundController.php`, `app/Http/Resources/OrderResource.php` (update), `app/Http/Resources/RefundResource.php`, pembaruan `RentalAvailabilityService.php`, penambahan file uji `OrderCancellationTest.php`, dan rute terkait di `routes/api/order.php` dan `routes/api/admin.php`.
+
+## Tahap 7.6 — Rental Return, KTP Review, User Management & Scheduled Job
+**Status:** Selesai
+**Ringkasan:** Sub-tahap terakhir Tahap 7. Diimplementasikan empat kelompok fitur: (1) `RentalReturnController` untuk memproses pengembalian fisik unit sewa, termasuk kalkulasi `late_fee`, perubahan status unit, pembuatan `DamageReport` otomatis, dan transisi `Order` ke `completed`. (2) `DamageReportController` untuk admin mengelola laporan kerusakan. (3) Artisan command `rentals:update-overdue` terjadwal harian untuk menandai rental_items overdue. (4) `KtpReviewController` untuk flow verifikasi KTP (approve, reject, reset) dengan auto-confirm order `awaiting_ktp_verification`. (5) `UserManagementController` termasuk toggle `is_active`.
+**Keputusan penting:** `late_fee` dihitung **hanya saat actual return** — rumus: `late_days = (actual_return_date - rental_due_date)` dalam hari; `late_fee = late_days × rental_price_daily`. Cron hanya menandai `overdue`, tidak menghitung biaya. ⚠️ **Penambahan di luar database-schema-final.md:** Kolom `is_active BOOLEAN DEFAULT true` ditambahkan ke tabel `users` melalui migration baru — field ini tidak ada di skema awal.
+**File/struktur utama yang dihasilkan:** `app/Http/Controllers/Api/Admin/RentalReturnController.php`, `DamageReportController.php`, `KtpReviewController.php`, `UserManagementController.php`, `app/Console/Commands/UpdateOverdueRentals.php`, migration `add_is_active_to_users_table`, `routes/console.php` (scheduler), update `routes/api/admin.php` (+12 routes), `tests/Feature/RentalReturnTest.php`, `tests/Feature/KtpReviewTest.php`.
+
+---
+
+## Tahap 7 — Backend Development (SELESAI) ✅
+**Status:** Selesai
+**Ringkasan (Tahap 7.1–7.6):** Seluruh backend API dibangun dari nol menggunakan Laravel 12 API-only + Sanctum. Mencakup: auth lengkap (email+OTP, Google OAuth, KTP upload); manajemen katalog (kategori, produk, gambar, stok unit); mesin ketersediaan sewa dengan race condition protection via `DB::transaction()` + `lockForUpdate()`; alur checkout dengan pemisahan order purchase/rental + snapshot alamat + 1 Payment untuk banyak order; manajemen order (riwayat, detail, pembatalan dengan state machine); dan siklus lengkap pengembalian sewa (return processing, damage report, overdue scheduler, KTP review, user management).
+**Keputusan arsitektural yang dikunci:**
+- Single source of truth overlap-checking via `RentalAvailabilityService::getAvailableUnitsQuery()`, dengan auto-exclude rental_items dari order `cancelled`.
+- Checkout = titik reservasi nyata; cart hanya "niat".
+- Snapshot alamat wajib di `orders`.
+- `late_fee` final dihitung hanya saat actual return.
+- `is_active` ditambahkan ke tabel `users` (di luar skema awal).
+**Total endpoint:** ~60+ API endpoints (user + admin). **Total test:** 7 feature test files, 17 test cases.
+

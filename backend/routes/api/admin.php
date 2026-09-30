@@ -63,5 +63,27 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function ()
     Route::get('/refunds', [\App\Http\Controllers\Api\Admin\RefundController::class, 'index']);
     Route::post('/orders/{id}/refunds', [\App\Http\Controllers\Api\Admin\RefundController::class, 'store']);
     Route::patch('/refunds/{id}/status', [\App\Http\Controllers\Api\Admin\RefundController::class, 'updateStatus']);
+
+    // -------------------------------------------------------------------
+    // Rental return & damage report management
+    // -------------------------------------------------------------------
+    Route::post('/rental-items/{id}/return', [\App\Http\Controllers\Api\Admin\RentalReturnController::class, 'processReturn']);
+    Route::get('/damage-reports', [\App\Http\Controllers\Api\Admin\DamageReportController::class, 'index']);
+    Route::patch('/damage-reports/{id}', [\App\Http\Controllers\Api\Admin\DamageReportController::class, 'update']);
+
+    // -------------------------------------------------------------------
+    // KTP verification management
+    // -------------------------------------------------------------------
+    Route::get('/users/ktp-pending', [\App\Http\Controllers\Api\Admin\KtpReviewController::class, 'pending']);
+    Route::post('/users/{id}/ktp/approve', [\App\Http\Controllers\Api\Admin\KtpReviewController::class, 'approve']);
+    Route::post('/users/{id}/ktp/reject', [\App\Http\Controllers\Api\Admin\KtpReviewController::class, 'reject']);
+    Route::post('/users/{id}/ktp/reset-verification', [\App\Http\Controllers\Api\Admin\KtpReviewController::class, 'resetVerification']);
+
+    // -------------------------------------------------------------------
+    // User management
+    // -------------------------------------------------------------------
+    Route::get('/users', [\App\Http\Controllers\Api\Admin\UserManagementController::class, 'index']);
+    Route::get('/users/{id}', [\App\Http\Controllers\Api\Admin\UserManagementController::class, 'show']);
+    Route::patch('/users/{id}/toggle-active', [\App\Http\Controllers\Api\Admin\UserManagementController::class, 'toggleActive']);
 });
 
