@@ -31,6 +31,7 @@ class User extends Authenticatable
         'ktp_reviewed_at',
         'ktp_reviewed_by',
         'ktp_rejection_reason',
+        'is_active',
     ];
 
     /**
@@ -56,6 +57,7 @@ class User extends Authenticatable
             'ktp_submitted_at' => 'datetime',
             'ktp_reviewed_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
