@@ -86,3 +86,13 @@
 - `is_active` ditambahkan ke tabel `users` (di luar skema awal).
 **Total endpoint:** ~60+ API endpoints (user + admin). **Total test:** 7 feature test files, 17 test cases.
 
+## Tahap 8.1 — Frontend Design System Foundation
+**Status:** Selesai
+**Ringkasan:** Mengerjakan fondasi design system untuk frontend di folder `src/app/` dan `src/components/`. Desain sistem merujuk secara ketat pada konfigurasi frontmatter `brief_design.md` (termasuk palet warna, tipografi Inter, radius, dan spacing) yang diintegrasikan langsung ke Tailwind v4 theme di `globals.css`. Dibuat juga layout global terpusat di `layout.tsx` beserta komponen reusable: UI dasar (`Button`, `Card`, `Input`, `Badge`), `Navbar`, `Footer`, dan `WhatsAppFloatingButton`. 
+**Keputusan penting:** 
+- Menggunakan Tailwind v4 `@theme inline` di `globals.css` sebagai *single source of truth* design token. 
+- Komponen UI menggunakan pola `cva` / `clsx` + `tailwind-merge` agar mudah disesuaikan variannya.
+- Dibuat sistem ikon terstandarisasi (`Icon.tsx`) sebagai wrapper tipis di atas `lucide-react` dengan prop terbatas (`size`, `variant`) untuk menjaga ukuran, *strokeWidth* (1.75), dan warna tetap konsisten se-aplikasi. Komponen `BrandIcon` juga disertakan untuk memberikan *signature treatment* (lingkaran warna brand) pada ikon bernilai khusus (kontak, WhatsApp).
+- Halaman utama (`page.tsx`) diubah sementara menjadi *style guide* untuk verifikasi visual dasar.
+**File/struktur utama yang dihasilkan:** `frontend/src/app/globals.css`, `frontend/src/app/layout.tsx`, `frontend/src/app/page.tsx`, `frontend/src/components/layout/` (`Navbar.tsx`, `Footer.tsx`, `WhatsAppFloatingButton.tsx`), `frontend/src/components/ui/` (`Button.tsx`, `Card.tsx`, `Input.tsx`, `Badge.tsx`, `Icon.tsx`), dan `frontend/src/lib/utils.ts`.
+
