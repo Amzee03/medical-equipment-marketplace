@@ -8,14 +8,13 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-bold text-xl mb-4">SariGuntur Medical</h3>
-            <p className="text-white/80 text-sm leading-relaxed max-w-sm">
-              Penyedia layanan jual-beli dan penyewaan alat kesehatan terpercaya. 
-              Komitmen kami adalah memberikan solusi medis terbaik dengan layanan yang profesional.
+            <h3 className="font-bold text-xl mb-4 text-white">SariGuntur Medical</h3>
+            <p className="text-white/80 text-sm leading-relaxed pr-4 md:pr-8">
+              Akses gerbang terpadu untuk pengadaan instrumen medis berlisensi, manajemen inventaris klinik, serta penjadwalan pemeliharaan instrumen berkualitas tinggi.
             </p>
           </div>
           <div>
-            <h4 className="font-semibold text-lg mb-4 text-secondary-container">Tautan Penting</h4>
+            <h4 className="font-semibold text-lg mb-4 text-white">Tautan Penting</h4>
             <ul className="space-y-2 text-sm text-white/80">
               <li>
                 <Link href="/" className="hover:text-white transition-colors">
@@ -35,7 +34,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-lg mb-4 text-secondary-container">Kontak Kami</h4>
+            <h4 className="font-semibold text-lg mb-4 text-white">Kontak Kami</h4>
             <ul className="space-y-4 text-sm text-white/80">
               <li className="flex items-start gap-3">
                 <BrandIcon name="Phone" containerSize="sm" brandColor="secondary" containerClassName="bg-secondary-container/20 text-secondary-container" size="sm" />

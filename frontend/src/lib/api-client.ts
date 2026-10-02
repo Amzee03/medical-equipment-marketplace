@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuthStore } from '@/store/authStore';
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -8,10 +9,22 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  // TODO: Get Bearer token from Zustand store or localStorage
-  // const token = useAuthStore.getState().token;
-  // if (token) {
-  //   config.headers.Authorization = `Bearer ${token}`;
-  // }
+  const token = useAuthStore.getState().token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      useAuthStore.getState().clearAuth();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);

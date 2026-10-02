@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 
@@ -15,7 +16,10 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex items-center gap-2.5">
+            <div className="bg-white p-1 rounded-full">
+              <Image src="/logosariguntur.jpeg" alt="Logo SariGuntur Medical" width={28} height={28} className="rounded-sm object-contain" />
+            </div>
             <Link href="/" className="font-bold text-xl tracking-tight">
               SariGuntur Medical
             </Link>

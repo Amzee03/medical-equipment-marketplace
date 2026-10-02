@@ -96,3 +96,12 @@
 - Halaman utama (`page.tsx`) diubah sementara menjadi *style guide* untuk verifikasi visual dasar.
 **File/struktur utama yang dihasilkan:** `frontend/src/app/globals.css`, `frontend/src/app/layout.tsx`, `frontend/src/app/page.tsx`, `frontend/src/components/layout/` (`Navbar.tsx`, `Footer.tsx`, `WhatsAppFloatingButton.tsx`), `frontend/src/components/ui/` (`Button.tsx`, `Card.tsx`, `Input.tsx`, `Badge.tsx`, `Icon.tsx`), dan `frontend/src/lib/utils.ts`.
 
+## Tahap 8.2 — Frontend Auth Pages
+**Status:** Selesai
+**Ringkasan:** Mengerjakan fungsionalitas dan antarmuka untuk otentikasi (Registrasi dan Login). Diimplementasikan state management lokal `zustand` dengan persistensi ke `localStorage` untuk menyimpan JWT token dan profil *user*. Integrasi API melalui `axios` interceptor secara otomatis menyisipkan token dan menangani sesi yang kedaluwarsa (401).
+**Keputusan penting:** 
+- Alur registrasi dibuat dalam satu halaman (multi-step UI) agar transisi pengisian form dan verifikasi OTP lebih mulus tanpa perlu pindah *route*.
+- Form divalidasi ketat menggunakan `react-hook-form` dan `zod` untuk memastikan kelengkapan dan kecocokan password.
+- Integrasi *Google Sign-In* di-load menggunakan tag `<Script>` *next/script* dan dibungkus di dalam komponen `GoogleSignInButton.tsx`.
+**File/struktur utama yang dihasilkan:** `frontend/src/store/authStore.ts`, `frontend/src/lib/api-client.ts` (update), `frontend/src/app/(auth)/login/page.tsx`, `frontend/src/app/(auth)/register/page.tsx`, `frontend/src/components/auth/GoogleSignInButton.tsx`, dan `frontend/src/components/auth/ProtectedRoute.tsx`.
+
