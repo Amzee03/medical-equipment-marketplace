@@ -65,40 +65,33 @@ export default function LoginPage() {
         
         {/* Left Column (Information) */}
         <div className="hidden md:flex flex-col bg-primary p-12 text-white md:w-5/12 lg:w-1/2">
-          <h1 className="text-3xl lg:text-4xl font-bold leading-tight mb-4">
+          <h1 className="text-3xl py-6 lg:text-4xl font-bold leading-tight mb-4">
             Standar Mutu & Keandalan Pengadaan Alat Medis
           </h1>
-          <p className="text-white/80 text-sm lg:text-base mb-10 leading-relaxed">
-            Platform pengadaan, penyewaan, dan pengelolaan alat medis berkualitas tinggi.
-          </p>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="bg-primary-hover/30 p-4 rounded-xl flex gap-4 items-start">
               <BrandIcon name="BriefcaseMedical" containerSize="sm" brandColor="secondary" containerClassName="bg-white/10 text-secondary-container" />
               <div>
                 <h3 className="font-bold text-sm lg:text-base">Pengadaan Alat Medis Resmi</h3>
-                <p className="text-white/70 text-xs mt-1">Sertifikasi AKL/AKD terjamin 100% legalitasnya.</p>
               </div>
             </div>
             <div className="bg-primary-hover/30 p-4 rounded-xl flex gap-4 items-start">
               <BrandIcon name="CalendarCheck" containerSize="sm" brandColor="secondary" containerClassName="bg-white/10 text-secondary-container" />
               <div>
                 <h3 className="font-bold text-sm lg:text-base">Pengajuan Sewa Cepat & Transparan</h3>
-                <p className="text-white/70 text-xs mt-1">Kalkulasi biaya sewa harian hingga tahunan.</p>
               </div>
             </div>
             <div className="bg-primary-hover/30 p-4 rounded-xl flex gap-4 items-start">
               <BrandIcon name="Truck" containerSize="sm" brandColor="secondary" containerClassName="bg-white/10 text-secondary-container" />
               <div>
                 <h3 className="font-bold text-sm lg:text-base">Pelacakan Pesanan Real-time</h3>
-                <p className="text-white/70 text-xs mt-1">Pantau status pengiriman alat secara aktual dan akurat.</p>
               </div>
             </div>
             <div className="bg-primary-hover/30 p-4 rounded-xl flex gap-4 items-start">
               <BrandIcon name="Headset" containerSize="sm" brandColor="secondary" containerClassName="bg-white/10 text-secondary-container" />
               <div>
-                <h3 className="font-bold text-sm lg:text-base">Dukungan Teknis 24/7</h3>
-                <p className="text-white/70 text-xs mt-1">Konsultasi instalasi operasional 24 jam.</p>
+                <h3 className="font-bold text-sm lg:text-base">Dukungan Teknis 24 jam</h3>
               </div>
             </div>
           </div>
