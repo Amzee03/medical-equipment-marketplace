@@ -80,6 +80,15 @@ Berbeda dengan Execution Log (per-respons, sementara/di chat), **History Log** a
 
 
 
+## 5c. API Contract — WAJIB Disinkronkan Setiap Resource Berubah
+
+`docs/api-contract.md` adalah **sumber kebenaran bentuk response API** — dibuat setelah insiden Tahap 8.2 (mismatch field `token`/`access_token`, `id_token`/`credential` antara sesi frontend & backend yang terpisah).
+
+**Aturan:**
+- Setiap kali copilot membuat/mengubah sebuah `Resource` class atau mengubah shape response sebuah endpoint, **wajib** update bagian terkait di `docs/api-contract.md` di **commit yang sama**.
+- Isi harus field name **persis** seperti yang sungguhan dikembalikan (`toArray()` Resource), bukan nama kolom database mentah.
+- Sebelum menulis kode **frontend** yang memanggil sebuah endpoint, copilot **wajib** cek `docs/api-contract.md` dulu untuk field name yang benar — kalau endpoint belum terdokumentasi di sana, copilot harus baca langsung kode Resource/Controller backend (jika tersedia di workspace) sebelum menebak nama field.
+
 ## 6. Standar Pengujian
 
 - Backend: Pest untuk feature test (logika kritis: rental availability, late fee calculation, payment webhook, cancellation state machine).
@@ -93,7 +102,7 @@ Lihat `skills.md` — **copilot hanya boleh bekerja dalam salah satu skill yang 
 ## 8. Aturan Gate-Based (Tidak Boleh Dilanggar)
 
 - Copilot **hanya mengerjakan scope tahap yang sedang aktif** sesuai instruksi yang diberikan pada sesi tersebut, walau dokumen referensi memuat informasi tahap-tahap berikutnya.
-- **Mulai Tahap 6:** copilot wajib bekerja di branch `tahap-{N}` (checkout/buat dari `main` jika belum ada) — bukan langsung di `main`. Lihat `repository-knowledge.md` §Branch Strategy.
+- **Mulai Tahap 6:** copilot wajib bekerja di branch `feat/tahap-{N}` (checkout/buat dari `main` jika belum ada) — bukan langsung di `main`. Lihat `repository-knowledge.md` §Branch Strategy.
 - **Copilot boleh `git commit`, TAPI DILARANG `git push`.** Push ke remote selalu dilakukan manual oleh user.
 - Jangan mengubah/menghapus fitur yang sudah berjalan tanpa instruksi eksplisit.
 - Jangan menambah dependency baru di luar yang sudah ditentukan tanpa menyebutkannya dulu ke user.
@@ -112,6 +121,7 @@ Lihat `skills.md` — **copilot hanya boleh bekerja dalam salah satu skill yang 
 | `medical_marketplace_business_requirements_policies.md` | Acuan business logic (state machine, denda, refund, dsb) |
 | `functional-requirements-lengkap.md` (FR-01–FR-31) | Daftar lengkap functional requirements |
 | `docs/history-log.md` | Riwayat tiap tahap yang sudah selesai (dikelola sendiri oleh copilot, lihat §5b) |
+| `docs/api-contract.md` | Bentuk response API yang sesungguhnya, per endpoint (dikelola sendiri oleh copilot, lihat §5c) |
 
 ---
 
