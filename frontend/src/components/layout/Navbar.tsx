@@ -17,8 +17,8 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center gap-2.5">
-            <div className="bg-white p-1 rounded-full">
-              <Image src="/logosariguntur.jpeg" alt="Logo SariGuntur Medical" width={28} height={28} className="rounded-sm object-contain" />
+            <div className="bg-white p-1.5 rounded-full">
+              <Image src="/sariguntur.jpeg" alt="Logo SariGuntur Medical" width={30} height={30} className="rounded-sm object-contain" />
             </div>
             <Link href="/" className="font-bold text-xl tracking-tight">
               SariGuntur Medical
@@ -30,10 +30,10 @@ export const Navbar = () => {
             <Link href="/" className="hover:text-secondary-container transition-colors font-medium">
               Beranda
             </Link>
-            <Link href="/categories" className="hover:text-secondary-container transition-colors font-medium">
+            <Link href="/#kategori" className="hover:text-secondary-container transition-colors font-medium">
               Kategori
             </Link>
-            <Link href="/products" className="hover:text-secondary-container transition-colors font-medium">
+            <Link href="/produk" className="hover:text-secondary-container transition-colors font-medium">
               Produk
             </Link>
           </div>
@@ -86,14 +86,14 @@ export const Navbar = () => {
               Beranda
             </Link>
             <Link
-              href="/categories"
+              href="/#kategori"
               className="px-3 py-2 rounded-md text-base font-medium hover:bg-white/10"
               onClick={toggleMobileMenu}
             >
               Kategori
             </Link>
             <Link
-              href="/products"
+              href="/produk"
               className="px-3 py-2 rounded-md text-base font-medium hover:bg-white/10"
               onClick={toggleMobileMenu}
             >
