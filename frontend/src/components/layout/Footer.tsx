@@ -4,7 +4,7 @@ import { BrandIcon } from "../ui/Icon";
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary-container text-white py-12 mt-auto">
+    <footer className="bg-primary-container text-white pt-10 pb-6 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -51,7 +51,7 @@ export const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/20 text-center text-sm text-white/60">
+        <div className="mt-10 pt-6 border-t border-white/20 text-center text-sm text-white/60">
           <p>&copy; {new Date().getFullYear()} SariGuntur Medical. All rights reserved.</p>
         </div>
       </div>

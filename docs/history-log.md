@@ -105,3 +105,15 @@
 - Integrasi *Google Sign-In* di-load menggunakan tag `<Script>` *next/script* dan dibungkus di dalam komponen `GoogleSignInButton.tsx`.
 **File/struktur utama yang dihasilkan:** `frontend/src/store/authStore.ts`, `frontend/src/lib/api-client.ts` (update), `frontend/src/app/(auth)/login/page.tsx`, `frontend/src/app/(auth)/register/page.tsx`, `frontend/src/components/auth/GoogleSignInButton.tsx`, dan `frontend/src/components/auth/ProtectedRoute.tsx`.
 
+## Tahap 8.3 — Frontend Storefront
+**Status:** Selesai (branch `feat/tahap-8-3`, belum di-push)
+**Ringkasan:** Katalog publik storefront: homepage, daftar produk (search, filter, sort, pagination), dan halaman produk per kategori. Seluruh field & query param mengikuti `docs/api-contract.md` (pagination hanya `meta`, tanpa `links`). Tidak ada dependency baru dan tidak ada perubahan backend.
+**Keputusan penting:**
+- Slug kategori → `category_id` dicari dari `GET /api/categories` (via `useCategories`, `staleTime` 60 dtk), sehingga tidak perlu endpoint baru.
+- Filter halaman `/produk` disimpan di URL query (`q`, `category_id`, `min_price`, `max_price`, `purchase_available`, `rental_available`, `sort`, `page`); search di-debounce 400 ms. Filter boolean hanya dikirim ke API saat `true`.
+- Filter kategori memakai radio (API hanya mendukung satu `category_id`), berbeda dari checkbox pada desain referensi.
+- Badge "Tersedia" jika `purchase_available && stock_purchase > 0` atau `rental_available`; selain itu "Stok Habis". Harga sewa memakai `rental_price_daily` sebagai "mulai dari".
+- Jumlah produk per kategori tidak ditampilkan karena tidak ada di API.
+- Halaman demo design system (`src/app/page.tsx`) dihapus dan digantikan homepage di route group `(storefront)`. Link Navbar diperbaiki ke `/produk` dan `/#kategori`.
+**File/struktur utama:** `src/lib/api/{products,categories}.ts`, `src/lib/format.ts`, `src/types/product.ts`, `src/hooks/{useProducts,useCategories,useDebouncedValue}.ts`, `src/components/product/{ProductCard,CategoryCard}.tsx`, `src/components/common/{States,Pagination}.tsx`, `src/app/(storefront)/{page.tsx,produk/page.tsx,kategori/[slug]/page.tsx}`, `public/hero-hospital.jpg`.
+
